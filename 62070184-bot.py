@@ -18,10 +18,20 @@ def get_last_webex_message(room_id):
     res = requests.get(f"{webex_endpoint}?roomId={room_id}", headers=headers)
     return res.json().get("items", [{}])[0].get("text", "")
 
+def send_webex_message(room_id, text):
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    data = {
+        "roomId": room_id,
+        "text": text,
+    }
+    requests.post(f"{webex_endpoint}", headers=headers, json=data)
+
 def get_interface_oper_status(interface_name):
     headers = {
         "Accept": "application/yang-data+json",
-        "Content-type":"application/yang-data+json"
+        "Content-type": "application/yang-data+json",
     }
 
     restconf_endpoint = f"https://{host}/restconf/data/ietf-interfaces:interfaces-state/interface={interface_name}/"
