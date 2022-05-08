@@ -4,10 +4,28 @@ host = "10.0.15.112"
 username = "admin"
 password = "cisco"
 
-target_interface = "loop6207"
+target_interface = "loopback 62070184"
 target_ip = "192.168.1.1"
 target_subnet = "255.255.255.0"
 target_slash_notation = "24"
+
+def config_interface_ip(ssh, target_interface, target_ip, target_subnet):
+    print(f"Configuring interface {target_interface}.")
+    commands = [
+        f"int {target_interface}",
+        f"ip addr {target_ip} {target_subnet}",
+        "no shut",
+    ]
+    ssh.send_config_set(commands)
+    ssh.save_config()
+
+def remove_interface(ssh, target_interface):
+    print(f"Removing interface {target_interface}.")
+    commands = [
+        f"no int {target_interface}",
+    ]
+    ssh.send_config_set(commands)
+    ssh.save_config()
 
 with ConnectHandler(device_type="cisco_ios", ip=host, username=username, password=password) as ssh:
     interface_result = ssh.send_command(f"sh int {target_interface}", use_textfsm=True)[0]
