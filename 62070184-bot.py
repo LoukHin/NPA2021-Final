@@ -1,4 +1,5 @@
 import requests
+import time
 
 host = "10.0.15.112"
 username = "admin"
@@ -39,3 +40,13 @@ def get_interface_oper_status(interface_name):
     interface_info = res.json().get("ietf-interfaces:interface", {})
     return interface_info.get("oper-status")
 
+def loop():
+    message = get_last_webex_message(webex_room_id)
+    print(f"Received message: {message}")
+    if message == student_id:
+        interface_status = get_interface_oper_status(loopback_name)
+        send_webex_message(webex_room_id, f"{loopback_name} - Operational status is {interface_status}")
+
+while 1:
+    loop()
+    time.sleep(1)
