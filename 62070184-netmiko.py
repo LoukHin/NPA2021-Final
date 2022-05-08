@@ -39,6 +39,6 @@ with ConnectHandler(device_type="cisco_ios", ip=host, username=username, passwor
             print(f"Interface {target_interface} configured incorrectly.")
             config_interface_ip(ssh, target_interface, target_ip, target_subnet)
 
-    except:
+    except TypeError:
         print(f"Interface {target_interface} does not exist.")
         config_interface_ip(ssh, target_interface, target_ip, target_subnet)
