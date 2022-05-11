@@ -1,15 +1,19 @@
 import requests
 import time
+import os
+from dotenv import load_dotenv
 
-host = "10.0.15.112"
-username = "admin"
-password = "cisco"
-student_id = "62070184"
-loopback_name = f"Loopback{student_id}"
+load_dotenv()
 
-access_token = "N2M3NzA4NGItMjhhZC00MWIyLWFhODAtM2UzNzVjMzUyNmQ5MjUzYzIzNGYtOTQy_P0A1_9a8a306f-5965-407f-a4b3-63b85af39c54"
-webex_endpoint = "https://webexapis.com/v1/messages"
-webex_room_id = "Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZDZjYWMwMjAtOTA1ZS0xMWVjLWIxMzMtMDM5MDgwYWM5Yzdh"
+host = os.environ.get("HOST")
+username = os.environ.get("USERNAME")
+password = os.environ.get("PASSWORD")
+student_id = os.environ.get("STUDENT_ID")
+loopback_name = os.environ.get("LOOPBACK_NAME")
+
+access_token = os.environ.get("ACCESS_TOKEN")
+webex_endpoint = os.environ.get("WEBEX_ENDPOINT")
+webex_room_id = os.environ.get("WEBEX_ROOM_ID")
 
 def get_last_webex_message(room_id):
     headers = {
