@@ -40,6 +40,29 @@ def get_interface_oper_status(interface_name):
     interface_info = res.json().get("ietf-interfaces:interface", {})
     return interface_info.get("oper-status")
 
+def enable_interface(interface_name):
+    headers = {
+        "Accept": "application/yang-data+json",
+        "Content-type": "application/yang-data+json",
+    }
+
+    config_data = {
+        "ietf-interfaces:interface": {
+            "name": interface_name,
+            "type": "iana-if-type:softwareLoopback",
+            "enabled": True
+        }
+    }
+
+    restconf_endpoint = f"https://{host}/restconf/data/ietf-interfaces:interfaces-state/interface={interface_name}/"
+    res = requests.put(restconf_endpoint, data=config_data, auth=(username, password), headers=headers, verify=False)
+
+    if(res.status_code >= 200 and res.status_code <= 299):
+        print("STATUS OK: {}".format(res.status_code))
+    else:
+        print('Error. Status Code: {} \nError message: {}'.format(res.status_code, res.json()))
+    return res.status_code >= 200 and res.status_code <= 299
+
 def loop():
     message = get_last_webex_message(webex_room_id)
     print(f"Received message: {message}")
