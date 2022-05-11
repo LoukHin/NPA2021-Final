@@ -70,6 +70,12 @@ def loop():
         interface_status = get_interface_oper_status(loopback_name)
         send_webex_message(webex_room_id, f"{loopback_name} - Operational status is {interface_status}")
 
+        if interface_status == "down":
+            enable_interface(loopback_name)
+            interface_status = get_interface_oper_status(loopback_name)
+            status_message = "up again" if interface_status == "up" else "still down"
+            send_webex_message(webex_room_id, f"Enable {loopback_name} - Now the Operational status is {status_message}")
+
 while 1:
     loop()
     time.sleep(1)
