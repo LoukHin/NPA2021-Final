@@ -7,9 +7,9 @@ password = "cisco"
 student_id = "62070184"
 loopback_name = f"Loopback{student_id}"
 
-access_token = ""
+access_token = "N2M3NzA4NGItMjhhZC00MWIyLWFhODAtM2UzNzVjMzUyNmQ5MjUzYzIzNGYtOTQy_P0A1_9a8a306f-5965-407f-a4b3-63b85af39c54"
 webex_endpoint = "https://webexapis.com/v1/messages"
-webex_room_id = ""
+webex_room_id = "Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vZDZjYWMwMjAtOTA1ZS0xMWVjLWIxMzMtMDM5MDgwYWM5Yzdh"
 
 def get_last_webex_message(room_id):
     headers = {
@@ -54,8 +54,8 @@ def enable_interface(interface_name):
         }
     }
 
-    restconf_endpoint = f"https://{host}/restconf/data/ietf-interfaces:interfaces-state/interface={interface_name}/"
-    res = requests.put(restconf_endpoint, data=config_data, auth=(username, password), headers=headers, verify=False)
+    restconf_endpoint = f"https://{host}/restconf/data/ietf-interfaces:interfaces/interface={interface_name}/"
+    res = requests.put(restconf_endpoint, json=config_data, auth=(username, password), headers=headers, verify=False)
 
     if(res.status_code >= 200 and res.status_code <= 299):
         print("STATUS OK: {}".format(res.status_code))
